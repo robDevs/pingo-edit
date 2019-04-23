@@ -13,7 +13,7 @@ Level editor for the ps vita homebrew [Pingo](https://github.com/Grzybojad/Pingo
 #### Dependencies (Linux)
 - See the [Working on GNU Linux](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux) section at raylib.com
 
-### Dependencies (Windows) 
+#### Dependencies (Windows) 
 - You should be able to run this app as a standalone app though I have little experience developing for Windows
 - If needed see the [Working on Windows](https://github.com/raysan5/raylib/wiki/Working-on-Windows) section at raylib.com
 
