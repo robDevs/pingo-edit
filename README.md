@@ -17,3 +17,5 @@ Level editor for the ps vita homebrew [Pingo](https://github.com/Grzybojad/Pingo
 - You should be able to run this app as a standalone app though I have little experience developing for Windows
 - If needed see the [Working on Windows](https://github.com/raysan5/raylib/wiki/Working-on-Windows) section at raylib.com
 
+##### Release Info
+- Get the latest release [here](https://github.com/robDevs/pingo-edit/releases/latest).
