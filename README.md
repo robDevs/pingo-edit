@@ -7,7 +7,7 @@ Level editor for the ps vita homebrew [Pingo](https://github.com/Grzybojad/Pingo
 - Resize level: Arrow Keys
 - Save to file: Enter Key
 
-### Build with RayLib
+### Built with RayLib
 - https://www.raylib.com/
 
 #### Dependencies (Linux)
