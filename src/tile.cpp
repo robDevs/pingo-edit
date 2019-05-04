@@ -13,7 +13,7 @@ Texture bg;
 
 void loadTextures() {
     Image tempImage;
-    
+
     tempImage = LoadImage("assets/floorBlank.png");
     ImageResizeNN(&tempImage, 36, 34);
     floor = LoadTextureFromImage(tempImage);
@@ -67,9 +67,13 @@ void updateSize(Tile tile[26][16]) {
     int newWidth = defWidth / levelWidth;
     int newHeight = defHeight / levelHeight;
 
+    int newXStart = defWidth/2 - newWidth/2;
+    int newYStart = defHeight/2 - newHeight/2;
+
     for(int i = 0; i < 26; i++) {
         for(int x = 0; x < 16; x++) {
-
+            tile[i][x].rect.x = i * 36 + 12 + ((26 - levelWidth) * 18);
+            tile[i][x].rect.y = x * 34 + ((16 - levelHeight) * 17);
 
             if(i >= levelWidth || x >= levelHeight)
                 tile[i][x].active = false;
@@ -104,6 +108,9 @@ void drawTiles(Tile tile[26][16]) {
               break;
           }
       }
+      else {
+          tile[i][x].type = WALL;
+      }
     }
 }
 
@@ -133,8 +140,8 @@ int writeToFile(Tile tile[26][16], char *index, char *lName, char *star2, char *
 
     if(fprintf(fp, "\n") < 0) return -1;
 
-    for(int x = 0; x < 16; x++) {
-      for(int i = 0; i < 26; i++) {
+    for(int x = 0; x < levelHeight; x++) {
+      for(int i = 0; i < levelWidth; i++) {
         if(tile[i][x].active) {
             switch (tile[i][x].type) {
               case FLOOR:
