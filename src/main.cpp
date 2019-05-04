@@ -39,6 +39,28 @@ int main()
         textBox4.update();
         textBox5.update();
 
+        if(IsKeyReleased(KEY_TAB)) {
+            if(CheckCollisionPointRec(GetMousePosition(), textBox1.rect)) {
+                SetMousePosition(textBox2.rect.x, textBox2.rect.y);
+            }
+
+            else if(CheckCollisionPointRec(GetMousePosition(), textBox2.rect)) {
+                SetMousePosition(textBox3.rect.x, textBox3.rect.y);
+            }
+
+            else if(CheckCollisionPointRec(GetMousePosition(), textBox3.rect)) {
+                SetMousePosition(textBox4.rect.x, textBox4.rect.y);
+            }
+
+            else if(CheckCollisionPointRec(GetMousePosition(), textBox4.rect)) {
+                SetMousePosition(textBox5.rect.x, textBox5.rect.y);
+            }
+
+            else{
+                SetMousePosition(textBox1.rect.x, textBox1.rect.y);
+            }
+        }
+
         if(IsKeyReleased(KEY_ENTER)){
             if(checkName(textBox1.message, textBox1.letterCount)) conprint("Changed spaces to '_'", 1);
             if(writeToFile(tile, textBox2.message, textBox3.message, textBox4.message, textBox5.message, textBox1.message) == -1) conprint("Error saving!", CON_ERROR);
