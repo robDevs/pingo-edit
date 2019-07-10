@@ -6,9 +6,11 @@
 #include <string>
 
 
-#define FLOOR   0
-#define WALL    1
-#define START   3
+#define FLOOR       0
+#define WALL        1
+#define STOPTILE    3
+#define START       4
+
 #define MAX_INPUT_CHARS     15
 
 typedef struct {
@@ -27,6 +29,7 @@ extern Texture floor;
 extern Texture wall;
 extern Texture start;
 extern Texture bg;
+extern Texture stopTile;
 
 extern void loadTextures();
 extern void unloadTextures();

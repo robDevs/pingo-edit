@@ -10,6 +10,7 @@ Texture floor;
 Texture wall;
 Texture start;
 Texture bg;
+Texture stopTile;
 
 void loadTextures() {
     Image tempImage;
@@ -33,6 +34,11 @@ void loadTextures() {
     ImageResizeNN(&tempImage, 156, 136);
     bg = LoadTextureFromImage(tempImage);
     UnloadImage(tempImage);
+
+    tempImage = LoadImage("assets/stopTile.png");
+    ImageResizeNN(&tempImage, 36, 34);
+    stopTile = LoadTextureFromImage(tempImage);
+    UnloadImage(tempImage);
 }
 
 void unloadTextures() {
@@ -40,6 +46,7 @@ void unloadTextures() {
     UnloadTexture(wall);
     UnloadTexture(start);
     UnloadTexture(bg);
+    UnloadTexture(stopTile);
 }
 
 void drawGrid(Tile tile[26][16]) {
@@ -106,6 +113,11 @@ void drawTiles(Tile tile[26][16]) {
               DrawTexture(start, tile[i][x].rect.x, tile[i][x].rect.y, WHITE);
               //DrawRectangleRec(tile[i][x].rect, GREEN);
               break;
+
+            case STOPTILE:
+              DrawTexture(stopTile, tile[i][x].rect.x, tile[i][x].rect.y, WHITE);
+              //DrawRectangleRec(tile[i][x].rect, GREEN);
+              break;
           }
       }
       else {
@@ -152,6 +164,9 @@ int writeToFile(Tile tile[26][16], char *index, char *lName, char *star2, char *
                 break;
               case START:
                 if(fprintf(fp, "s") < 0) return -1;
+                break;
+              case STOPTILE:
+                if(fprintf(fp, "x") < 0) return -1;
                 break;
             }
         }

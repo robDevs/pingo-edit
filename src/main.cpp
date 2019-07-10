@@ -92,6 +92,9 @@ int main()
               if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 switch (tile[i][x].type) {
                   case FLOOR:
+                    tile[i][x].type = STOPTILE;
+                    break;
+                  case STOPTILE:
                     tile[i][x].type = WALL;
                     break;
                   case WALL:
