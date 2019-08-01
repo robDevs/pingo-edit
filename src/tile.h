@@ -5,13 +5,12 @@
 #include "raylib.h"
 #include <string>
 
-
-#define FLOOR               0
+#define FLOOR               2
 #define WALL                1
 #define STOPTILE            3
-#define START               4
-#define FLOOR_EMPTY         5
-#define CONVEYOR_BLANK      6
+#define START               0
+#define FLOOR_EMPTY         4
+#define CONVEYOR_BLANK      5
 
 #define MAX_INPUT_CHARS     15
 
@@ -47,5 +46,6 @@ extern void drawTiles(Tile tile[26][16]);
 extern void updateSize(Tile tile[26][16]);
 extern int writeToFile(Tile tile[26][16], char *index, char *lName, char *star2, char *star3, char *path);
 extern bool checkName(char *name, int count);
+extern void draw_selector(int x, int y, int type, bool selected);
 
 #endif

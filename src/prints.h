@@ -34,4 +34,13 @@ extern std::vector<Message> messageList;
 extern void conprint(const char *message, int level);
 extern void showNotifs();
 
+typedef struct button {
+    std::string text;
+    int x;
+    int y;
+    bool clicked;
+    int update();
+    void draw();
+}button;
+
 #endif

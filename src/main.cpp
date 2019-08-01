@@ -17,6 +17,12 @@ int main()
     Tile tile[26][16];
     initGid(tile);
 
+    button save_button;
+    save_button.clicked = false;
+    save_button.x = screenWidth - 140;
+    save_button.y = screenHeight - 60;
+    save_button.text = "Save";
+
     InitWindow(screenWidth, screenHeight, "levelEditor");
 
     loadTextures();
@@ -84,17 +90,28 @@ int main()
             levelWidth -= 1;
             updateSize(tile);
         }
+        if(!textBox1.mouseOnText && !textBox2.mouseOnText && !textBox3.mouseOnText &&!textBox4.mouseOnText && !textBox5.mouseOnText) {
+          if(IsKeyReleased(KEY_ONE))
+              curr_tile = 0;
+          if(IsKeyReleased(KEY_TWO))
+              curr_tile = 1;
+          if(IsKeyReleased(KEY_THREE))
+              curr_tile = 2;
+          if(IsKeyReleased(KEY_FOUR))
+              curr_tile = 3;
+          if(IsKeyReleased(KEY_FIVE))
+              curr_tile = 4;
+          if(IsKeyReleased(KEY_SIX))
+              curr_tile = 5;
+        }
 
-        if(IsKeyReleased(KEY_ONE))
-            curr_tile = WALL;
-        if(IsKeyReleased(KEY_TWO))
-            curr_tile = FLOOR;
-        if(IsKeyReleased(KEY_THREE))
-            curr_tile = STOPTILE;
-        if(IsKeyReleased(KEY_FOUR))
-            curr_tile = FLOOR_EMPTY;
-        if(IsKeyReleased(KEY_FIVE))
-            curr_tile = CONVEYOR_BLANK;
+        //move with mouse wheel scroll
+        curr_tile += GetMouseWheelMove();
+        //check if mouse scroll was too far.
+        if(curr_tile > 5)
+            curr_tile = 0;
+        if(curr_tile < 0)
+            curr_tile = 5;
 
         for(int i = 0; i < 26; i++)
           for(int x = 0; x < 16; x++) {
@@ -107,13 +124,20 @@ int main()
                 for(int j = 0; j < 26; j++)
                   for(int k = 0; k < 16; k++)
                     if(tile[j][k].type == START) tile[j][k].type = FLOOR;
-                if(tile[i][x].type = CONVEYOR_BLANK)
+                if(tile[i][x].type == CONVEYOR_BLANK)
                     tile[i][x].rad += 90;
                 if(tile[i][x].rad >= 360)
                     tile[i][x].rad = 0;
               }
 
             }
+          }
+
+
+          if(save_button.update() == 1) {
+              if(checkName(textBox1.message, textBox1.letterCount)) conprint("Changed spaces to '_'", 1);
+              if(writeToFile(tile, textBox2.message, textBox3.message, textBox4.message, textBox5.message, textBox1.message) == -1) conprint("Error saving!", CON_ERROR);
+              else conprint("Save successful!", CON_SUCCESS);
           }
 
         // Draw
@@ -138,8 +162,20 @@ int main()
              DrawText("2 stars", textBox4.rect.x, textBox4.rect.y + textBox4.rect.height, 10, BLACK);
              DrawText("3 stars", textBox5.rect.x, textBox5.rect.y + textBox5.rect.height, 10, BLACK);
 
-             DrawText("Press Enter to Save to file.", textBox1.rect.x + textBox1.rect.width + 20, screenHeight - 20, 20, BLACK);
+             //DrawText("Press Enter to Save to file.", textBox1.rect.x + textBox1.rect.width + 20, screenHeight - 20, 20, BLACK);
 
+             DrawRectangle(screenWidth/2-(40*6/2), screenHeight-50, 40*6, 50, GRAY);
+             for(int i = 0; i < 6; i++) {
+                 draw_selector(screenWidth/2-(38*6/2)+i*38, screenHeight-50, i, curr_tile == i);
+                 Vector2 mousePoint = GetMousePosition();
+                 if(CheckCollisionPointRec(mousePoint, (Rectangle){(float)screenWidth/2-(38*6/2)+i*38, (float)screenHeight-36, 100, 50})) {
+                   if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                     curr_tile = i;
+                   }
+                 }
+             }
+
+             save_button.draw();
 
         EndDrawing();
         //----------------------------------------------------------------------------------

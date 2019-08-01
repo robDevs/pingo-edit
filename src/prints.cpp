@@ -122,3 +122,26 @@ void showNotifs() {
         DrawText(messageList[i].message, MessageBox.x + 5, MessageBox.y + 25 - 10, 20, color);
     }
 }
+
+int button::update() {
+    Vector2 mousePoint = GetMousePosition();
+    if(CheckCollisionPointRec(mousePoint, (Rectangle){(float)x, (float)y, 200, 100})) {
+      if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+        clicked = true;
+      }
+      else {
+          clicked = false;
+      }
+      if(IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+          return 1;
+    }
+    return 0;
+}
+
+void button::draw() {
+    if(clicked)
+        DrawRectangle(x, y, 100, 50, GRAY);
+    else
+        DrawRectangle(x, y, 100, 50, LIGHTGRAY);
+    DrawText(text.c_str(), x + 50 - MeasureText(text.c_str(), 20)/2, y + 25 - 10, 20, BLACK);
+}

@@ -14,7 +14,7 @@ Texture stopTile;
 Texture floorEmpty;
 Texture conveyorBlank;
 
-int curr_tile = FLOOR;
+int curr_tile = 0;
 
 void loadTextures() {
     Image tempImage;
@@ -120,22 +120,27 @@ void drawTiles(Tile tile[26][16]) {
           switch (tile[i][x].type) {
             case FLOOR:
               DrawTexture(floor, tile[i][x].rect.x, tile[i][x].rect.y, WHITE);
+              tile[i][x].rad = 0;
               //DrawRectangleRec(tile[i][x].rect, BLACK);
               break;
             case WALL:
               DrawTexture(wall, tile[i][x].rect.x, tile[i][x].rect.y, WHITE);
+              tile[i][x].rad = 0;
               //DrawRectangleRec(tile[i][x].rect, WHITE);
               break;
             case START:
               DrawTexture(start, tile[i][x].rect.x, tile[i][x].rect.y, WHITE);
+              tile[i][x].rad = 0;
               //DrawRectangleRec(tile[i][x].rect, GREEN);
               break;
             case STOPTILE:
               DrawTexture(stopTile, tile[i][x].rect.x, tile[i][x].rect.y, WHITE);
+              tile[i][x].rad = 0;
               //DrawRectangleRec(tile[i][x].rect, GREEN);
               break;
             case FLOOR_EMPTY:
               DrawTexture(floorEmpty, tile[i][x].rect.x, tile[i][x].rect.y, WHITE);
+              tile[i][x].rad = 0;
             //DrawRectangleRec(tile[i][x].rect, GREEN);
               break;
             case CONVEYOR_BLANK:
@@ -199,6 +204,19 @@ int writeToFile(Tile tile[26][16], char *index, char *lName, char *star2, char *
               case STOPTILE:
                 if(fprintf(fp, "x") < 0) return -1;
                 break;
+              case FLOOR_EMPTY:
+                if(fprintf(fp,"d") < 0) return -1;
+                break;
+              case CONVEYOR_BLANK:
+                if(tile[i][x].rad == 0)
+                  if(fprintf(fp, "^") < 0) return -1;
+                if(tile[i][x].rad == 90)
+                  if(fprintf(fp, ">") < 0) return -1;
+                if(tile[i][x].rad == 180)
+                  if(fprintf(fp, "v") < 0) return -1;
+                if(tile[i][x].rad == 270)
+                  if(fprintf(fp, "<") < 0) return -1;
+              break;
             }
         }
       }
@@ -217,4 +235,40 @@ bool checkName(char *name, int count) {
         }
     }
     return ret;
+}
+
+void draw_selector(int x, int y, int type, bool selected) {
+    switch (type) {
+      case FLOOR:
+        DrawTexture(floor, x + 2, y + 2, WHITE);
+        //DrawRectangleRec(tile[i][x].rect, BLACK);
+        break;
+      case WALL:
+        DrawTexture(wall, x + 2, y + 2, WHITE);
+        //DrawRectangleRec(tile[i][x].rect, WHITE);
+        break;
+      case START:
+        DrawTexture(start, x + 2, y + 2, WHITE);
+        //DrawRectangleRec(tile[i][x].rect, GREEN);
+        break;
+      case STOPTILE:
+        DrawTexture(stopTile, x + 2, y + 2, WHITE);
+        //DrawRectangleRec(tile[i][x].rect, GREEN);
+        break;
+      case FLOOR_EMPTY:
+        DrawTexture(floorEmpty, x + 2, y + 2, WHITE);
+      //DrawRectangleRec(tile[i][x].rect, GREEN);
+        break;
+      case CONVEYOR_BLANK:
+        DrawTexture(conveyorBlank, x + 2, y + 2, WHITE);
+        break;
+    }
+    DrawText(TextFormat("%d", type + 1), x+ 19, y + 38 + 20 - 20, 15, BLACK);
+    if(selected) {
+        DrawRectangleLines(x, y, 38, 36, PURPLE);
+        DrawRectangleLines(x+1, y+1, 36, 35, PURPLE);
+        DrawRectangleLines(x+2, y+1, 35, 34, PURPLE);
+    }
+    else
+        DrawRectangleLines(x, y, 38, 36, BLACK);
 }
