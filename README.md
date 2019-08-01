@@ -2,10 +2,10 @@
 Level editor for the ps vita homebrew [Pingo](https://github.com/Grzybojad/Pingo)
 
 ## Controls:
-- Toggle wall/floor: Left click
-- Toggle start: Right click
+- Place selected tile: Left Click
+- Rotate Tile(if possible): Right Click
 - Resize level: Arrow Keys
-- Save to file: Enter Key
+- Save to file: Enter Key or save button
 
 ### Built with RayLib
 - https://www.raylib.com/
