@@ -6,17 +6,22 @@
 #include <string>
 
 
-#define FLOOR       0
-#define WALL        1
-#define STOPTILE    3
-#define START       4
+#define FLOOR               0
+#define WALL                1
+#define STOPTILE            3
+#define START               4
+#define FLOOR_EMPTY         5
+#define CONVEYOR_BLANK      6
 
 #define MAX_INPUT_CHARS     15
+
+extern int curr_tile;
 
 typedef struct {
   Rectangle rect;
   int type;
   bool active;
+  float rad;
 } Tile;
 
 extern int defWidth;
@@ -30,6 +35,8 @@ extern Texture wall;
 extern Texture start;
 extern Texture bg;
 extern Texture stopTile;
+extern Texture floorEmpty;
+extern Texture conveyorBlank;
 
 extern void loadTextures();
 extern void unloadTextures();

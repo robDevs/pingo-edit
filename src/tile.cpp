@@ -11,6 +11,10 @@ Texture wall;
 Texture start;
 Texture bg;
 Texture stopTile;
+Texture floorEmpty;
+Texture conveyorBlank;
+
+int curr_tile = FLOOR;
 
 void loadTextures() {
     Image tempImage;
@@ -39,6 +43,16 @@ void loadTextures() {
     ImageResizeNN(&tempImage, 36, 34);
     stopTile = LoadTextureFromImage(tempImage);
     UnloadImage(tempImage);
+
+    tempImage = LoadImage("assets/floorEmpty.png");
+    ImageResizeNN(&tempImage, 36, 34);
+    floorEmpty = LoadTextureFromImage(tempImage);
+    UnloadImage(tempImage);
+
+    tempImage = LoadImage("assets/conveyorBlank.png");
+    ImageResizeNN(&tempImage, 36, 34);
+    conveyorBlank = LoadTextureFromImage(tempImage);
+    UnloadImage(tempImage);
 }
 
 void unloadTextures() {
@@ -47,6 +61,8 @@ void unloadTextures() {
     UnloadTexture(start);
     UnloadTexture(bg);
     UnloadTexture(stopTile);
+    UnloadTexture(floorEmpty);
+    UnloadTexture(conveyorBlank);
 }
 
 void drawGrid(Tile tile[26][16]) {
@@ -67,6 +83,7 @@ void initGid(Tile tile[26][16]) {
       tile[i][x].rect.height = 34;
       tile[i][x].type = WALL;
       tile[i][x].active = true;
+      tile[i][x].rad = 0;
     }
 }
 
@@ -113,9 +130,23 @@ void drawTiles(Tile tile[26][16]) {
               DrawTexture(start, tile[i][x].rect.x, tile[i][x].rect.y, WHITE);
               //DrawRectangleRec(tile[i][x].rect, GREEN);
               break;
-
             case STOPTILE:
               DrawTexture(stopTile, tile[i][x].rect.x, tile[i][x].rect.y, WHITE);
+              //DrawRectangleRec(tile[i][x].rect, GREEN);
+              break;
+            case FLOOR_EMPTY:
+              DrawTexture(floorEmpty, tile[i][x].rect.x, tile[i][x].rect.y, WHITE);
+            //DrawRectangleRec(tile[i][x].rect, GREEN);
+              break;
+            case CONVEYOR_BLANK:
+              if(tile[i][x].rad == 0)
+                DrawTextureEx(conveyorBlank, (Vector2){tile[i][x].rect.x, tile[i][x].rect.y}, tile[i][x].rad, 1.0f, WHITE);
+              if(tile[i][x].rad == 90)
+                DrawTextureEx(conveyorBlank, (Vector2){tile[i][x].rect.x + 36, tile[i][x].rect.y}, tile[i][x].rad, 1.0f, WHITE);
+              if(tile[i][x].rad == 180)
+                DrawTextureEx(conveyorBlank, (Vector2){tile[i][x].rect.x + 36, tile[i][x].rect.y + 34}, tile[i][x].rad, 1.0f, WHITE);
+              if(tile[i][x].rad == 270)
+                DrawTextureEx(conveyorBlank, (Vector2){tile[i][x].rect.x, tile[i][x].rect.y + 34}, tile[i][x].rad, 1.0f, WHITE);
               //DrawRectangleRec(tile[i][x].rect, GREEN);
               break;
           }

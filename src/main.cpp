@@ -85,38 +85,32 @@ int main()
             updateSize(tile);
         }
 
+        if(IsKeyReleased(KEY_ONE))
+            curr_tile = WALL;
+        if(IsKeyReleased(KEY_TWO))
+            curr_tile = FLOOR;
+        if(IsKeyReleased(KEY_THREE))
+            curr_tile = STOPTILE;
+        if(IsKeyReleased(KEY_FOUR))
+            curr_tile = FLOOR_EMPTY;
+        if(IsKeyReleased(KEY_FIVE))
+            curr_tile = CONVEYOR_BLANK;
+
         for(int i = 0; i < 26; i++)
           for(int x = 0; x < 16; x++) {
             Vector2 mousePoint = GetMousePosition();
             if(CheckCollisionPointRec(mousePoint, tile[i][x].rect) && tile[i][x].active) {
               if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                switch (tile[i][x].type) {
-                  case FLOOR:
-                    tile[i][x].type = STOPTILE;
-                    break;
-                  case STOPTILE:
-                    tile[i][x].type = WALL;
-                    break;
-                  case WALL:
-                    tile[i][x].type = FLOOR;
-                    break;
-                  case START:
-                    tile[i][x].type = FLOOR;
-                    break;
-                }
+                tile[i][x].type = curr_tile;
               }
               else if(IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
                 for(int j = 0; j < 26; j++)
                   for(int k = 0; k < 16; k++)
                     if(tile[j][k].type == START) tile[j][k].type = FLOOR;
-                switch (tile[i][x].type) {
-                  case START:
-                    tile[i][x].type = FLOOR;
-                    break;
-                  default:
-                    tile[i][x].type = START;
-                    break;
-                }
+                if(tile[i][x].type = CONVEYOR_BLANK)
+                    tile[i][x].rad += 90;
+                if(tile[i][x].rad >= 360)
+                    tile[i][x].rad = 0;
               }
 
             }
