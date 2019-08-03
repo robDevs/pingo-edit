@@ -47,23 +47,23 @@ int main()
 
         if(IsKeyReleased(KEY_TAB)) {
             if(CheckCollisionPointRec(GetMousePosition(), textBox1.rect)) {
-                SetMousePosition(textBox2.rect.x, textBox2.rect.y);
+                SetMousePosition((Vector2){textBox2.rect.x, textBox2.rect.y});
             }
 
             else if(CheckCollisionPointRec(GetMousePosition(), textBox2.rect)) {
-                SetMousePosition(textBox3.rect.x, textBox3.rect.y);
+                SetMousePosition((Vector2){textBox3.rect.x, textBox3.rect.y});
             }
 
             else if(CheckCollisionPointRec(GetMousePosition(), textBox3.rect)) {
-                SetMousePosition(textBox4.rect.x, textBox4.rect.y);
+                SetMousePosition((Vector2){textBox4.rect.x, textBox4.rect.y});
             }
 
             else if(CheckCollisionPointRec(GetMousePosition(), textBox4.rect)) {
-                SetMousePosition(textBox5.rect.x, textBox5.rect.y);
+                SetMousePosition((Vector2){textBox5.rect.x, textBox5.rect.y});
             }
 
             else{
-                SetMousePosition(textBox1.rect.x, textBox1.rect.y);
+                SetMousePosition((Vector2){textBox1.rect.x, textBox1.rect.y});
             }
         }
 
@@ -73,35 +73,35 @@ int main()
             else conprint("Save successful!", CON_SUCCESS);
         }
 
-        if(IsKeyReleased(KEY_UP) && levelHeight < 16) {
+        if(IsKeyPressed(KEY_UP) && levelHeight < 16) {
             levelHeight += 1;
             updateSize(tile);
         }
-        if(IsKeyReleased(KEY_DOWN) && levelHeight > 2) {
+        if(IsKeyPressed(KEY_DOWN) && levelHeight > 2) {
             levelHeight -= 1;
             updateSize(tile);
         }
 
-        if(IsKeyReleased(KEY_RIGHT) && levelWidth < 26) {
+        if(IsKeyPressed(KEY_RIGHT) && levelWidth < 26) {
             levelWidth += 1;
             updateSize(tile);
         }
-        if(IsKeyReleased(KEY_LEFT) && levelWidth > 2) {
+        if(IsKeyPressed(KEY_LEFT) && levelWidth > 2) {
             levelWidth -= 1;
             updateSize(tile);
         }
         if(!textBox1.mouseOnText && !textBox2.mouseOnText && !textBox3.mouseOnText &&!textBox4.mouseOnText && !textBox5.mouseOnText) {
-          if(IsKeyReleased(KEY_ONE))
+          if(IsKeyPressed(KEY_ONE))
               curr_tile = 0;
-          if(IsKeyReleased(KEY_TWO))
+          if(IsKeyPressed(KEY_TWO))
               curr_tile = 1;
-          if(IsKeyReleased(KEY_THREE))
+          if(IsKeyPressed(KEY_THREE))
               curr_tile = 2;
-          if(IsKeyReleased(KEY_FOUR))
+          if(IsKeyPressed(KEY_FOUR))
               curr_tile = 3;
-          if(IsKeyReleased(KEY_FIVE))
+          if(IsKeyPressed(KEY_FIVE))
               curr_tile = 4;
-          if(IsKeyReleased(KEY_SIX))
+          if(IsKeyPressed(KEY_SIX))
               curr_tile = 5;
         }
 
@@ -118,12 +118,14 @@ int main()
             Vector2 mousePoint = GetMousePosition();
             if(CheckCollisionPointRec(mousePoint, tile[i][x].rect) && tile[i][x].active) {
               if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                tile[i][x].type = curr_tile;
+                if(curr_tile == START) {
+                    for(int j = 0; j < 26; j++)
+                        for(int k = 0; k < 16; k++)
+                            if(tile[j][k].type == START) tile[j][k].type = WALL;
+                }
+                tile[i][x].type = curr_tile;                
               }
               else if(IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
-                for(int j = 0; j < 26; j++)
-                  for(int k = 0; k < 16; k++)
-                    if(tile[j][k].type == START) tile[j][k].type = FLOOR;
                 if(tile[i][x].type == CONVEYOR_BLANK)
                     tile[i][x].rad += 90;
                 if(tile[i][x].rad >= 360)
@@ -168,7 +170,7 @@ int main()
              for(int i = 0; i < 6; i++) {
                  draw_selector(screenWidth/2-(38*6/2)+i*38, screenHeight-50, i, curr_tile == i);
                  Vector2 mousePoint = GetMousePosition();
-                 if(CheckCollisionPointRec(mousePoint, (Rectangle){(float)screenWidth/2-(38*6/2)+i*38, (float)screenHeight-36, 100, 50})) {
+                 if(CheckCollisionPointRec(mousePoint, (Rectangle){(float)screenWidth/2-(38*6/2)+i*38, (float)screenHeight-50, 36, 34})) {
                    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                      curr_tile = i;
                    }
